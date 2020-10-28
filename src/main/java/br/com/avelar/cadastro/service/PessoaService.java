@@ -2,15 +2,12 @@ package br.com.avelar.cadastro.service;
 
 import br.com.avelar.cadastro.dto.PessoaDTO;
 import br.com.avelar.cadastro.exceptions.DataIntegrityException;
+import br.com.avelar.cadastro.exceptions.PayloadTooLargeException;
 import br.com.avelar.cadastro.exceptions.ResourceNotFoundException;
 import br.com.avelar.cadastro.model.Foto;
 import br.com.avelar.cadastro.model.Pessoa;
 import br.com.avelar.cadastro.repository.PessoaRepository;
 import br.com.avelar.cadastro.utils.ImageUtils;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -38,6 +35,10 @@ public class PessoaService {
 
     public Pessoa save(Pessoa pessoa) throws IOException {
         byte[] bytesFoto = pessoa.getFoto().getBytes();
+
+        if ((bytesFoto.length / 1000000.0) > 1.05) {
+            throw new PayloadTooLargeException("Foto não pode ter mais de 1MB");
+        }
 
         if (ImageUtils.guessImageFormat(bytesFoto).equalsIgnoreCase("GIF")) {
             throw new DataIntegrityException("Formato de imagem GIF não suportado");
