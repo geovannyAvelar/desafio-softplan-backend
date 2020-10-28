@@ -4,21 +4,16 @@ import br.com.avelar.cadastro.dto.PessoaDTO;
 import br.com.avelar.cadastro.dto.PessoaExibicaoDTO;
 import br.com.avelar.cadastro.model.Foto;
 import br.com.avelar.cadastro.service.PessoaService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/pessoa")
@@ -41,7 +36,8 @@ public class PessoaController {
     public Page<PessoaExibicaoDTO> filter(@RequestParam(value = "nome", required = false) String nome,
                                           @RequestParam(value = "cpf", required = false) String cpf,
                                           @RequestParam(value = "email", required = false) String email,
-                                          @RequestParam(value = "nascimento", required = false) LocalDate nascimento) {
+                                          @RequestParam(value = "nascimento", required = false)
+                                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate nascimento) {
         return pessoaService.filter(nome, cpf, email, nascimento)
                             .map((p) -> new PessoaExibicaoDTO(p));
     }
