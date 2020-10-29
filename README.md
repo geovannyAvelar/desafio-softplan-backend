@@ -4,6 +4,10 @@ Essa é a implementação do backend do desafio para o processo seletivo da [Sof
 Se trata apenas de um cadastro e listagem de pessoas físicas. É uma API escrita em Java utilizando o framework 
 Spring Boot e o banco de dados relacional PostgreSQL.
 
+## Demo
+
+Uma demonstração da aplicação rodando no Heroku pode ser vista [aqui](https://desafio-softplan-frontend.herokuapp.com/)
+
 ## Processo de build e deploy
 
 Todo o processo de build e deploy da aplicação é feito utilizando o Docker Compose, portanto é necessário ter
